@@ -23,13 +23,13 @@ x là đã làm
 - [x] Chạy thử ở máy local, xác nhận bot phản hồi đúng trước khi deploy
 
 ## GIAI ĐOẠN 2 — Nhắc nhở sức khỏe
-- [ ] Lệnh `/nhacnho_bat` — bật nhắc nhở định kỳ
-- [ ] Lệnh `/nhacnho_tat` — tắt nhắc nhở
-- [ ] Lệnh `/setgio HH:MM` — người dùng tự đặt giờ nhắc (uống nước, đứng dậy, ngủ đúng giờ...)
-- [ ] Dùng `APScheduler` (hoặc JobQueue có sẵn trong thư viện) để lên lịch gửi tin theo giờ đã đặt
-- [ ] Lưu cấu hình nhắc nhở của người dùng vào file JSON hoặc SQLite (free không có DB server riêng nên dùng file nhẹ)
-- [ ] Soạn sẵn vài mẫu nội dung nhắc (uống nước, giãn cơ, nghỉ mắt, đi ngủ)
-- [ ] Test: bot gửi tin đúng giờ đã hẹn, kể cả sau khi Render khởi động lại
+- [x] Lệnh `/nhacnho_bat` — bật nhắc nhở định kỳ
+- [x] Lệnh `/nhacnho_tat` — tắt nhắc nhở
+- [x] Lệnh `/setgio HH:MM` — người dùng tự đặt giờ nhắc (uống nước, đứng dậy, ngủ đúng giờ...)
+- [x] Dùng `APScheduler` (hoặc JobQueue có sẵn trong thư viện) để lên lịch gửi tin theo giờ đã đặt
+- [x] Lưu cấu hình nhắc nhở của người dùng vào file JSON hoặc SQLite (free không có DB server riêng nên dùng file nhẹ)
+- [x] Soạn sẵn vài mẫu nội dung nhắc (uống nước, giãn cơ, nghỉ mắt, đi ngủ)
+- [x] Test: bot gửi tin đúng giờ đã hẹn, kể cả sau khi Render khởi động lại
 
 ## GIAI ĐOẠN 3 — Lấy tin từ Group Facebook (dùng acc clone)
 > Facebook không cho bot đọc bài viết trong group qua API chính thức, kể cả group riêng của bạn — nên cách khả thi duy nhất là dùng trình duyệt tự động (Selenium) đăng nhập bằng tài khoản thật.
