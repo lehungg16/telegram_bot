@@ -14,6 +14,8 @@ from handlers.start import start_command
 from handlers.help import help_command
 from handlers.reminder import nhacnho_bat_command, nhacnho_tat_command, setgio_command
 from scheduler import restore_all_reminders
+from handlers.baiviet import baiviet_command
+
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -43,6 +45,7 @@ def build_app() -> Application:
     app.add_handler(CommandHandler("nhacnho_bat", nhacnho_bat_command))
     app.add_handler(CommandHandler("nhacnho_tat", nhacnho_tat_command))
     app.add_handler(CommandHandler("setgio", setgio_command))
+    app.add_handler(CommandHandler("baiviet", baiviet_command))
 
     return app
 

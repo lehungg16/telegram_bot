@@ -31,16 +31,16 @@ x là đã làm
 - [x] Soạn sẵn vài mẫu nội dung nhắc (uống nước, giãn cơ, nghỉ mắt, đi ngủ)
 - [x] Test: bot gửi tin đúng giờ đã hẹn, kể cả sau khi Render khởi động lại
 
-## GIAI ĐOẠN 3 — Lấy tin từ Group Facebook (dùng acc clone)
+## GIAI ĐOẠN 3 — Lấy tin từ Page Facebook 
 > Facebook không cho bot đọc bài viết trong group qua API chính thức, kể cả group riêng của bạn — nên cách khả thi duy nhất là dùng trình duyệt tự động (Selenium) đăng nhập bằng tài khoản thật.
 
-- [ ] Chọn 1 acc clone cố định riêng cho việc này (đã có sẵn theo bạn nói) — không dùng acc chính, tách theo từng group/nơi để không trùng
-- [ ] Cài Selenium + ChromeDriver (chạy chế độ headless trên server)
-- [ ] Viết script đăng nhập Facebook bằng acc clone, **lưu cookie sau lần đăng nhập đầu** để không phải đăng nhập lại nhiều lần (đăng nhập lại liên tục dễ khiến Facebook nghi ngờ và khóa acc)
-- [ ] Viết script vào group, lấy tiêu đề + link của N bài viết mới nhất
-- [ ] Lệnh `/baiviet` — gửi danh sách bài viết mới nhất từ group
-- [ ] (Tuỳ chọn) Lên lịch tự cào định kỳ (vd mỗi 3 tiếng) và tự nhắn khi có bài mới
-- [ ] Xử lý lỗi: Facebook đổi giao diện / hiện captcha / yêu cầu xác minh 2 lớp → script phải báo lỗi qua Telegram cho bạn biết, không được im lặng
+
+- [x] Cài Selenium + ChromeDriver (chạy chế độ headless trên server)
+
+- [x] Viết script vào group, lấy tiêu đề + link của N bài viết mới nhất
+- [x] Lệnh `/baiviet` — gửi danh sách bài viết mới nhất từ group
+- [x] (Tuỳ chọn) Lên lịch tự cào định kỳ (vd mỗi 3 tiếng) và tự nhắn khi có bài mới
+
 - **Lưu ý rủi ro:** đăng nhập tự động lặp lại là hành vi trái Điều khoản dịch vụ của Facebook, acc clone có thể bị khoá tạm thời hoặc vĩnh viễn tuỳ tần suất chạy — nên set tần suất cào thưa (không quá 1 lần/giờ) để giảm rủi ro
 
 ## GIAI ĐOẠN 4 — (Để dành tương lai) Kết nối AI điều khiển máy tính cá nhân

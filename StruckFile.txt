@@ -16,3 +16,11 @@ telegram_bot/
 ├── utils/time_utils.py     # validate giờ HH:MM
 ├── handlers/reminder.py    # /nhacnho_bat, /nhacnho_tat, /setgio
 └── data/reminders.json     # tự tạo khi chạy, KHÔNG lên GitHub (đã thêm .gitignore)
+├── scraper/
+│   ├── __init__.py            ← tạo file rỗng (giống handlers/__init__.py)
+│   ├── cookies_manager.py     ← COPY MỚI, file này độc lập, copy thẳng vào
+│   └── facebook_scraper.py    ← COPY MỚI, file này độc lập, copy thẳng vào
+├── handlers/
+│   ├── commands.py            ← ĐỐI CHIẾU, chỉ thêm dòng "baiviet"
+│   └── baiviet.py             ← COPY MỚI
+├── cookies/ 
