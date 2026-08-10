@@ -45,13 +45,17 @@ def build_app() -> Application:
     # Mỗi lệnh có handler riêng trong thư mục handlers/ — dễ thêm lệnh mới
     app.add_handler(CommandHandler("start", start_command))
     app.add_handler(CommandHandler("menu", menu_command))
-    app.add_handler(CallbackQueryHandler(menu_callback_handler))
-    app.add_handler(CallbackQueryHandler(menu_callback))
     app.add_handler(CommandHandler("help", help_command))
     app.add_handler(CommandHandler("baiviet", baiviet_command))
     app.add_handler(CommandHandler("nhacnho_bat", nhacnho_bat_command))
     app.add_handler(CommandHandler("nhacnho_tat", nhacnho_tat_command))
     app.add_handler(CommandHandler("setgio", setgio_command))
+
+    # FIX: nút MCP xử lý riêng bằng pattern="^mcp$" — chạy TRƯỚC
+    # handler tổng quát bên dưới để không bị "nuốt" mất lượt bấm.
+    app.add_handler(CallbackQueryHandler(menu_callback, pattern="^mcp$"))
+    # Toàn bộ nút còn lại (baiviet, nhacnho_bat, nhacnho_tat, setgio...)
+    app.add_handler(CallbackQueryHandler(menu_callback_handler))
 
     return app
 
@@ -59,7 +63,9 @@ def build_app() -> Application:
 def main() -> None:
     app = build_app()
     logger.info("Bot đang chạy (polling)... Nhấn Ctrl+C để dừng.")
-    app.run_polling(allowed_updates=["message"])
+    # FIX: phải cho phép "callback_query" thì bấm nút inline mới hoạt động,
+    # nếu không Telegram sẽ đứng ở trạng thái "đang tải..." mãi mãi.
+    app.run_polling(allowed_updates=["message","callback_query"])
 
 
 if __name__ == "__main__":
