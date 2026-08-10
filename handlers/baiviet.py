@@ -2,9 +2,8 @@
 handlers/baiviet.py
 --------------------
 Xử lý lệnh /baiviet: lấy 2 bài viết mới nhất từ fanpage
-Trường Đại học Quy Nhơn (https://www.facebook.com/daihocquynhon),
-KHÔNG đăng nhập tài khoản nào (xem như khách ẩn danh, vì đây là
-trang công khai), gửi lại nội dung + link qua Telegram.
+Trường Đại học Quy Nhơn (https://www.facebook.com/daihocquynhon)
+bằng acc clone, gửi lại nội dung + link qua Telegram.
 
 Vì Selenium là code ĐỒNG BỘ (chạy tuần tự, không async), còn bot
 Telegram chạy theo kiểu async - nếu gọi thẳng Selenium trong hàm
