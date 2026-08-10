@@ -15,7 +15,10 @@ from handlers.help import help_command
 from handlers.reminder import nhacnho_bat_command, nhacnho_tat_command, setgio_command
 from scheduler import restore_all_reminders
 from handlers.baiviet import baiviet_command
-
+from telegram.ext import CallbackQueryHandler
+from handlers.menu import menu_command, menu_callback_handler
+from handlers.menu_callback import menu_callback
+from telegram.ext import CallbackQueryHandler
 
 logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -41,11 +44,14 @@ def build_app() -> Application:
 
     # Mỗi lệnh có handler riêng trong thư mục handlers/ — dễ thêm lệnh mới
     app.add_handler(CommandHandler("start", start_command))
+    app.add_handler(CommandHandler("menu", menu_command))
+    app.add_handler(CallbackQueryHandler(menu_callback_handler))
+    app.add_handler(CallbackQueryHandler(menu_callback))
     app.add_handler(CommandHandler("help", help_command))
+    app.add_handler(CommandHandler("baiviet", baiviet_command))
     app.add_handler(CommandHandler("nhacnho_bat", nhacnho_bat_command))
     app.add_handler(CommandHandler("nhacnho_tat", nhacnho_tat_command))
     app.add_handler(CommandHandler("setgio", setgio_command))
-    app.add_handler(CommandHandler("baiviet", baiviet_command))
 
     return app
 

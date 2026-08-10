@@ -13,9 +13,10 @@ các dòng đã có.
 
 COMMANDS = [
     ("start", "Bắt đầu sử dụng bot"),
+    ("menu", "Bảng chọn chức năng"),
     ("help", "Xem danh sách lệnh"),
+    ("baiviet", "Xem 2 bài viết mới nhất từ fanpage Trường ĐH Quy Nhơn"),
     ("nhacnho_bat", "Bật nhắc nhở sức khỏe định kỳ"),
     ("nhacnho_tat", "Tắt nhắc nhở sức khỏe"),
     ("setgio", "Đặt giờ nhắc nhở, VD: /setgio 14:30"),
-    ("baiviet", "Xem 2 bài viết mới nhất từ fanpage Trường ĐH Quy Nhơn"),
 ]
