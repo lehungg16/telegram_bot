@@ -103,13 +103,13 @@ async def menu_callback_handler(update: Update, context: ContextTypes.DEFAULT_TY
         elif choice == "menu_setgio":
             await query.edit_message_text(
                 "⏰ Để đặt giờ nhắc, gõ lệnh:\n/setgio HH:MM\n\nVí dụ: /setgio 08:00",
-                reply_markup=_back_keyboard(),
+                # reply_markup=_back_keyboard(),
             )
 
         elif choice == "menu_mcp":
             await query.edit_message_text(
                 "My chưa có làm được !!!   :<",
-                reply_markup=_back_keyboard(),
+                # reply_markup=_back_keyboard(),
             )
 
         elif choice == "menu_back":
