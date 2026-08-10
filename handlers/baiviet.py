@@ -35,7 +35,7 @@ async def baiviet_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         # Chạy hàm đồng bộ get_latest_posts trong 1 thread riêng,
         # không làm nghẽn event loop chính của bot
         posts = await loop.run_in_executor(
-            None, get_latest_posts, SO_BAI_MOI_NHAT, False
+            None, get_latest_posts, SO_BAI_MOI_NHAT, True
         )
     except FacebookScraperError as e:
         await status_message.edit_text(
