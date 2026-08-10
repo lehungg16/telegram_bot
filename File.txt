@@ -1,0 +1,313 @@
+====================================================
+TÀI LIỆU CHI TIẾT — GIAI ĐOẠN 1: KHUNG BOT & MENU LỆNH
+====================================================
+Bot Telegram đa chức năng — Python, python-telegram-bot
+Ngày hoàn thành: Giai đoạn 1 (đã chạy thành công /start, /help)
+
+----------------------------------------------------
+MỤC TIÊU GIAI ĐOẠN 1
+----------------------------------------------------
+Dựng khung sườn cho bot: kết nối được với Telegram Bot API,
+có menu lệnh "/" hiện ra khi gõ, và có cấu trúc code tách rời
+theo từng lệnh để dễ mở rộng ở các giai đoạn sau (nhắc nhở sức
+khỏe, lấy tin Facebook...).
+
+----------------------------------------------------
+CẤU TRÚC THƯ MỤC (phần liên quan Giai đoạn 1)
+----------------------------------------------------
+telegram_bot/
+├── main.py                  ← File chạy chính, khởi động bot
+├── config.py                 ← Đọc TOKEN từ .env
+├── register_commands.py      ← Đăng ký menu "/" với BotFather
+├── requirements.txt          ← Danh sách thư viện cần cài
+├── .env.example               ← File mẫu chứa TOKEN (copy thành .env)
+├── .gitignore                 ← Danh sách file/thư mục không đưa lên GitHub
+└── handlers/
+    ├── __init__.py            ← File rỗng, đánh dấu đây là 1 package Python
+    ├── commands.py            ← Danh sách toàn bộ lệnh (dùng chung nhiều nơi)
+    ├── start.py                ← Xử lý lệnh /start
+    └── help.py                 ← Xử lý lệnh /help
+
+----------------------------------------------------
+GIẢI THÍCH TỪNG FILE
+----------------------------------------------------
+
+1) main.py
+   Chức năng:
+   - File chạy chính của bot (chạy bằng lệnh: python main.py)
+   - Hàm build_app(): tạo đối tượng Application (kết nối tới
+     Telegram bằng TOKEN), rồi đăng ký các handler (mỗi lệnh 1
+     handler riêng, lấy từ thư mục handlers/)
+   - Hàm main(): gọi build_app() rồi chạy bot ở chế độ polling
+     (bot tự hỏi Telegram liên tục xem có tin nhắn mới không —
+     cách chạy phù hợp khi test ở máy local; Giai đoạn 5 khi
+     deploy lên Render sẽ đổi sang chế độ webhook)
+   Vì sao tách build_app() riêng: để Giai đoạn 5 (webhook) có thể
+   tái sử dụng lại toàn bộ phần đăng ký handler mà không phải
+   viết lại.
+
+2) config.py
+   Chức năng:
+   - Đọc biến môi trường TELEGRAM_TOKEN, ưu tiên từ file .env
+     khi chạy ở máy local (dùng thư viện python-dotenv)
+   - Khi deploy lên Render, TOKEN sẽ được đọc trực tiếp từ mục
+     Environment của Render (không cần file .env)
+   - Nếu không tìm thấy TOKEN ở đâu cả → báo lỗi rõ ràng ngay
+     khi khởi động, tránh bot chạy "im lặng" rồi lỗi khó hiểu
+     ở bước sau
+
+3) register_commands.py
+   Chức năng:
+   - Script chạy riêng (không phải chạy chung với bot), dùng để
+     đăng ký danh sách lệnh với BotFather qua API set_my_commands
+   - Sau khi chạy xong, khi người dùng gõ "/" trong khung chat
+     Telegram sẽ hiện ra menu gợi ý các lệnh kèm mô tả ngắn
+   - Cách chạy: python register_commands.py
+   - Chỉ cần chạy 1 lần, hoặc chạy lại mỗi khi thêm/sửa lệnh mới
+     trong handlers/commands.py
+
+4) requirements.txt
+   Chức năng:
+   - Liệt kê các thư viện Python cần cài để bot chạy được
+   - Giai đoạn 1 cần: python-telegram-bot, python-dotenv
+   - Các thư viện cho Giai đoạn 2 (APScheduler/JobQueue) và
+     Giai đoạn 3 (selenium, flask) đã được ghi chú sẵn (dạng
+     comment) để biết trước sẽ cần gì, chưa cài ngay
+   - Cách cài: pip install -r requirements.txt
+
+5) .env.example
+   Chức năng:
+   - File mẫu, chỉ có 1 dòng: TELEGRAM_TOKEN=...
+   - Người dùng copy file này thành ".env" rồi điền TOKEN thật
+     lấy từ @BotFather vào
+   - File .env thật (chứa TOKEN thật) sẽ KHÔNG được đưa lên GitHub
+     (xem mục .gitignore bên dưới)
+
+6) .gitignore
+   Chức năng:
+   - Danh sách các file/thư mục Git sẽ bỏ qua, không đưa lên GitHub
+   - Quan trọng nhất: dòng ".env" — đảm bảo TOKEN bot không bao giờ
+     bị lộ lên GitHub public
+   - Ngoài ra bỏ qua: __pycache__/, file .pyc, môi trường ảo
+     (venv/), database (*.db, *.sqlite3), thư mục cookies/ (dùng
+     ở Giai đoạn 3 sau này)
+
+7) handlers/__init__.py
+   Chức năng:
+   - File rỗng, chỉ có tác dụng báo cho Python biết thư mục
+     handlers/ là một package, để có thể import được (ví dụ:
+     from handlers.start import start_command)
+
+8) handlers/commands.py
+   Chức năng:
+   - Nơi DUY NHẤT khai báo toàn bộ danh sách lệnh của bot,
+     dạng: [("start", "Bắt đầu..."), ("help", "Xem lệnh...")]
+   - File help.py và register_commands.py đều đọc danh sách từ
+     đây, nên khi thêm lệnh mới ở Giai đoạn 2/3, chỉ cần thêm
+     đúng 1 dòng vào đây là cả /help và menu BotFather tự cập
+     nhật theo, không cần sửa nhiều nơi
+
+9) handlers/start.py
+   Chức năng:
+   - Xử lý khi người dùng gõ lệnh /start
+   - Gửi lại tin nhắn chào mừng + hướng dẫn sơ lược cách dùng bot
+
+10) handlers/help.py
+    Chức năng:
+    - Xử lý khi người dùng gõ lệnh /help
+    - Đọc danh sách lệnh từ handlers/commands.py rồi liệt kê ra
+      từng dòng "/tên_lệnh — mô tả ngắn" gửi lại cho người dùng
+
+----------------------------------------------------
+KẾT QUẢ KIỂM TRA (đã test)
+----------------------------------------------------
+- Cú pháp toàn bộ file: hợp lệ
+- build_app() khởi tạo Application thành công, đăng ký đúng
+  2 handler (/start, /help)
+- Chạy thật trên Telegram: gửi /start và /help đều phản hồi
+  đúng theo handler tương ứng — XÁC NHẬN THÀNH CÔNG bởi người
+  dùng
+
+----------------------------------------------------
+GHI CHÚ THÊM
+----------------------------------------------------
+- requirements.txt ban đầu ghi cứng "python-telegram-bot==21.6".
+  Sau đó phát hiện Python 3.14 (bản người dùng cài) không tương
+  thích với bản 21.6 (lỗi "no current event loop"). Đã cập nhật
+  requirements.txt sang "python-telegram-bot[job-queue]>=22.8"
+  (bản mới nhất, đã hỗ trợ chính thức Python 3.14) — người dùng
+  chỉ cần chạy: pip install -U python-telegram-bot[job-queue]
+- Phần "[job-queue]" là extra dependency cần cho Giai đoạn 2
+  (lên lịch nhắc nhở), đã thêm sẵn từ Giai đoạn 1 để khỏi phải
+  cài lại lần nữa.
+
+----------------------------------------------------
+CẤU TRÚC THƯ MỤC (phần liên quan Giai đoạn 2)
+----------------------------------------------------
+đã làm = x
+telegram_bot/
+├── [x]main.py              # khởi tạo bot, chạy polling
+├── [x]config.py            # đọc TOKEN từ .env
+├── [x]register_commands.py # đăng ký menu / với BotFather
+├── [x]requirements.txt
+├── [x].env
+├── [x].gitignore
+└── handlers/
+    ├── commands.py   # danh sách lệnh tập trung (1 nguồn cho /help + BotFather)
+    ├── start.py
+    └── help.py
+├── storage.py              # lưu/đọc cấu hình nhắc nhở (JSON)
+├── scheduler.py            # lên lịch / xoá lịch / khôi phục sau restart
+├── reminder_messages.py    # 7 mẫu câu nhắc (uống nước, giãn cơ, nghỉ mắt, ngủ...)
+├── utils/time_utils.py     # validate giờ HH:MM
+├── handlers/reminder.py    # /nhacnho_bat, /nhacnho_tat, /setgio
+└── data/reminders.json     # tự tạo khi chạy, KHÔNG lên GitHub (đã thêm .gitignore)
+----------------------------------------------------
+KẾT QUẢ KIỂM TRA (đã test)
+----------------------------------------------------
+- Cú pháp toàn bộ file: hợp lệ
+- build_app() khởi tạo Application thành công, đăng ký đúng
+  5 handler 
+- Chạy thật trên Telegram:  XÁC NHẬN THÀNH CÔNG bởi người
+  dùng
+  tôi XÁC NHẬN
+
+====================================================
+GIAI ĐOẠN 3: LẤY TIN TỪ FANPAGE FACEBOOK
+====================================================
+
+----------------------------------------------------
+MỤC TIÊU GIAI ĐOẠN 3
+----------------------------------------------------
+Lấy 2 bài viết mới nhất từ 1 nguồn Facebook và gửi lại cho
+người dùng qua lệnh /baiviet.
+
+Kế hoạch ban đầu (theo template) là dùng acc clone đăng nhập
+vào 1 group riêng tư bằng Selenium. Trong quá trình làm đã đổi
+hướng 2 lần:
+
+1) Đổi nguồn từ "group riêng tư" sang "fanpage công khai"
+   (Trường Đại học Quy Nhơn, https://www.facebook.com/daihocquynhon,
+   76k theo dõi) — vì đây là trang chính thức, không cần acc
+   clone phải join/được duyệt như group riêng tư.
+
+2) Đổi cách truy cập từ "đăng nhập bằng acc clone" sang
+   "xem ẩn danh, không đăng nhập tài khoản nào" — vì khi thử
+   đăng nhập thật bằng Selenium, Facebook bắt giải captcha,
+   không thể tự động hóa hợp lệ và an toàn được. Vì fanpage là
+   trang công khai, nội dung bài viết vẫn xem được mà không cần
+   tài khoản, nên bỏ hẳn bước đăng nhập.
+
+Việc dùng token/access token (dạng chuỗi bắt đầu "EAAA...") để
+thay thế cũng đã được cân nhắc và loại bỏ, vì đó không phải
+cookie trình duyệt tương thích với Selenium, và có rủi ro lộ
+quyền truy cập tài khoản nếu dán ra ngoài.
+
+----------------------------------------------------
+CẤU TRÚC THƯ MỤC (phần liên quan Giai đoạn 3)
+----------------------------------------------------
+đã làm = x
+telegram_bot/
+├── [x]main.py                     # đã thêm đăng ký handler /baiviet
+├── [x]requirements.txt            # đã thêm selenium>=4.20.0
+├── [x]handlers/commands.py        # đã thêm dòng lệnh "baiviet" vào danh sách
+├── [x]handlers/baiviet.py         # xử lý lệnh /baiviet
+└── scraper/
+    ├── [x]__init__.py             # file rỗng, đánh dấu package Python
+    └── [x]facebook_scraper.py     # logic Selenium cào fanpage
+
+(Không còn cookies_manager.py, không còn thư mục cookies/, không
+cần biến FB_EMAIL / FB_PASSWORD trong .env — các phần này từng
+được tạo ở bản nháp đầu tiên khi còn định đăng nhập bằng acc
+clone, sau đó đã bỏ hẳn khi đổi sang xem ẩn danh.)
+
+----------------------------------------------------
+GIẢI THÍCH TỪNG FILE
+----------------------------------------------------
+
+1) scraper/facebook_scraper.py
+   Chức năng:
+   - Dùng Selenium mở Chrome thật (không headless, có giao diện,
+     để dễ debug), vào thẳng URL fanpage công khai, KHÔNG đăng
+     nhập bất kỳ tài khoản nào
+   - Lấy ra 2 bài viết mới nhất, mỗi bài gồm: nội dung caption
+     (đã lọc sạch rác giao diện) + link bài viết dạng /posts/
+   - Có hàm _clean_post_text(): lọc bỏ các dòng rác lẫn trong
+     nội dung bài viết như tên trang lặp lại, thời gian đăng
+     ("17 giờ", "·"), số lượt cảm xúc/bình luận, các nút
+     "Thích/Bình luận/Chia sẻ/Xem thêm"
+   - Có hàm _clean_url(): cắt bỏ ký tự control ẩn Facebook hay
+     chèn vào cuối link (\ufffc) và query string, để link gửi
+     ra sạch, bấm vào dùng được ngay
+   - Có hàm _check_login_wall(): phát hiện khi Facebook chặn
+     xem ẩn danh (đá về trang login) để báo lỗi rõ ràng qua
+     Telegram thay vì trả về danh sách rỗng một cách im lặng
+   - Selector chính dùng để nhận diện khung bài viết:
+     //div[@role='article'] — đây là điểm DỄ GÃY NHẤT của toàn
+     bộ giai đoạn 3, vì Facebook có thể đổi giao diện/class name
+     bất cứ lúc nào; nếu sau này /baiviet báo lỗi "không tải
+     được bài viết", đây là nơi đầu tiên cần kiểm tra lại
+
+2) handlers/baiviet.py
+   Chức năng:
+   - Xử lý khi người dùng gõ lệnh /baiviet
+   - Gửi ngay tin nhắn "Đang lấy dữ liệu từ fanpage, vui lòng
+     đợi ít phút..." vì Selenium cào mất vài chục giây, không
+     phản hồi tức thì
+   - Chạy hàm cào (đồng bộ, chặn luồng) trong 1 thread riêng
+     bằng run_in_executor, để bot Telegram (chạy bất đồng bộ)
+     không bị "đứng hình", vẫn xử lý được lệnh khác song song
+     trong lúc đang cào
+   - Bắt lỗi FacebookScraperError và mọi lỗi không lường trước
+     khác, luôn báo rõ ràng qua Telegram, không bao giờ im lặng
+     khi gặp sự cố
+
+3) handlers/commands.py
+   Chức năng:
+   - Đã thêm dòng ("baiviet", "Xem 2 bài viết mới nhất từ
+     fanpage Trường ĐH Quy Nhơn") vào danh sách lệnh tập trung,
+     để /help và menu BotFather tự cập nhật theo
+
+----------------------------------------------------
+KẾT QUẢ KIỂM TRA (đã test)
+----------------------------------------------------
+- Cú pháp toàn bộ file: hợp lệ
+- Chạy thật trên Telegram: gửi /baiviet, bot trả về đúng 2 bài
+  viết mới nhất từ fanpage, kèm link bài viết dạng /posts/ —
+  XÁC NHẬN THÀNH CÔNG bởi người dùng, sau khi sửa lỗi lọc rác
+  văn bản và làm sạch link ở lần chạy thử đầu tiên
+
+----------------------------------------------------
+HẠN CHẾ VÀ RỦI RO CÒN TỒN ĐỌNG (chưa xử lý, cần biết trước)
+----------------------------------------------------
+- Vì xem ẩn danh (không đăng nhập), Facebook có thể giới hạn số
+  bài xem được vào những thời điểm khác nhau, hoặc chặn hẳn và
+  đá về trang đăng nhập. Khi đó /baiviet sẽ báo lỗi rõ ràng qua
+  Telegram thay vì treo hoặc trả về rỗng.
+- Phương án dự phòng nếu tình trạng bị chặn xảy ra thường xuyên:
+  đăng nhập bằng cookie trình duyệt THẬT (tự đăng nhập tay trên
+  trình duyệt thường, xuất cookie bằng extension như
+  Cookie-Editor, nạp vào Selenium) — cách này không cần Selenium
+  tự gõ email/mật khẩu nên không bị Facebook nghi ngờ và đòi
+  captcha. Chưa triển khai trong bản này.
+- Selector //div[@role='article'] có thể gãy nếu Facebook đổi
+  giao diện.
+- Chưa làm: tự động cào định kỳ (vd mỗi 3 tiếng) và tự nhắn khi
+  có bài mới — hiện tại /baiviet chỉ chạy khi người dùng chủ
+  động gõ lệnh.
+- Chưa làm: Giai đoạn 4 (AI điều khiển máy tính cá nhân — đã
+  quyết định bỏ qua từ đầu) và Giai đoạn 5 (deploy lên Render.com,
+  chuyển sang webhook).
+
+====================================================
+DỰ ÁN DỪNG TẠI ĐÂY
+====================================================
+Dự án dừng sau khi hoàn thành Giai đoạn 3 (lấy tin từ fanpage
+Facebook). Giai đoạn 4 và Giai đoạn 5 trong bản kế hoạch gốc
+chưa được thực hiện.
+
+Trạng thái bàn giao: bot chạy được ở máy local (chế độ polling),
+đủ 3 chức năng chính đã xác nhận qua Telegram — menu lệnh /start
+/help, nhắc nhở sức khỏe /nhacnho_bat /nhacnho_tat /setgio, và
+lấy tin fanpage /baiviet. Chưa deploy lên Render, chưa chuyển
+sang webhook.
