@@ -1,0 +1,6 @@
+# run khởi tạo lệnh
+-> python register_commands.py
+
+
+# run main
+-> python main.py 

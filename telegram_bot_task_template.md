@@ -15,12 +15,12 @@ x là đã làm
 - [x] Tạo file `.env` chứa TOKEN — **không** đưa lên GitHub public (thêm vào `.gitignore`)
 
 ## GIAI ĐOẠN 1 — Khung bot & Menu lệnh (`/command`)
-- [ ] Viết `main.py` khởi tạo bot, kết nối Telegram Bot API
-- [ ] Đăng ký danh sách lệnh với BotFather (`/setcommands`) để hiện menu `/` khi gõ
-- [ ] Lệnh `/start` — chào mừng, hướng dẫn sơ lược cách dùng
-- [ ] Lệnh `/help` — liệt kê toàn bộ lệnh kèm mô tả ngắn
-- [ ] Tách code theo từng handler riêng cho mỗi lệnh (để dễ thêm chức năng sau)
-- [ ] Chạy thử ở máy local, xác nhận bot phản hồi đúng trước khi deploy
+- [x] Viết `main.py` khởi tạo bot, kết nối Telegram Bot API
+- [x] Đăng ký danh sách lệnh với BotFather (`/setcommands`) để hiện menu `/` khi gõ
+- [x] Lệnh `/start` — chào mừng, hướng dẫn sơ lược cách dùng
+- [x] Lệnh `/help` — liệt kê toàn bộ lệnh kèm mô tả ngắn
+- [x] Tách code theo từng handler riêng cho mỗi lệnh (để dễ thêm chức năng sau)
+- [x] Chạy thử ở máy local, xác nhận bot phản hồi đúng trước khi deploy
 
 ## GIAI ĐOẠN 2 — Nhắc nhở sức khỏe
 - [ ] Lệnh `/nhacnho_bat` — bật nhắc nhở định kỳ

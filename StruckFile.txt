@@ -1,0 +1,12 @@
+đã làm = x
+telegram_bot/
+├── [x]main.py              # khởi tạo bot, chạy polling
+├── [x]config.py            # đọc TOKEN từ .env
+├── [x]register_commands.py # đăng ký menu / với BotFather
+├── [x]requirements.txt
+├── [x].env
+├── [x].gitignore
+└── handlers/
+    ├── commands.py   # danh sách lệnh tập trung (1 nguồn cho /help + BotFather)
+    ├── start.py
+    └── help.py
