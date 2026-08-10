@@ -1,3 +1,8 @@
+# Cài đặt thư viện cần dùng
+-> pip install -r requirements.txt
+# thư viện hợp cho python 3.14
+-> pip install -U python-telegram-bot[job-queue]
+
 # run khởi tạo lệnh
 -> python register_commands.py
 

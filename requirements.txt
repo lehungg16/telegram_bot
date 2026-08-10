@@ -3,3 +3,6 @@ APScheduler
 selenium
 python-dotenv
 Flask
+
+python-telegram-bot[job-queue]>=22.8
+python-dotenv==1.0.1

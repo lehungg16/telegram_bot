@@ -10,3 +10,9 @@ telegram_bot/
     ├── commands.py   # danh sách lệnh tập trung (1 nguồn cho /help + BotFather)
     ├── start.py
     └── help.py
+├── storage.py              # lưu/đọc cấu hình nhắc nhở (JSON)
+├── scheduler.py            # lên lịch / xoá lịch / khôi phục sau restart
+├── reminder_messages.py    # 7 mẫu câu nhắc (uống nước, giãn cơ, nghỉ mắt, ngủ...)
+├── utils/time_utils.py     # validate giờ HH:MM
+├── handlers/reminder.py    # /nhacnho_bat, /nhacnho_tat, /setgio
+└── data/reminders.json     # tự tạo khi chạy, KHÔNG lên GitHub (đã thêm .gitignore)
