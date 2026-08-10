@@ -71,3 +71,6 @@ Testing/
 # Environment variables
 .env
 .env.*
+__pycache__/
+*.pyc
+data/reminders.json
