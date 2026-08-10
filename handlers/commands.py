@@ -11,10 +11,9 @@ cả /help và menu BotFather sẽ tự cập nhật theo.
 COMMANDS = [
     ("start", "Bắt đầu / xem lời chào"),
     ("help", "Xem danh sách lệnh"),
-    # Giai đoạn 2 sẽ thêm:
-    # ("nhacnho_bat", "Bật nhắc nhở sức khỏe định kỳ"),
-    # ("nhacnho_tat", "Tắt nhắc nhở sức khỏe"),
-    # ("setgio", "Đặt giờ nhắc — cú pháp: /setgio HH:MM"),
+    ("nhacnho_bat", "Bật nhắc nhở sức khỏe định kỳ"),
+    ("nhacnho_tat", "Tắt nhắc nhở sức khỏe"),
+    ("setgio", "Đặt giờ nhắc — cú pháp: /setgio HH:MM"),
     # Giai đoạn 3 sẽ thêm:
     # ("baiviet", "Lấy bài viết mới nhất từ group Facebook"),
 ]
