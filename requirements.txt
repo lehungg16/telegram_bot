@@ -1,0 +1,5 @@
+python-telegram-bot
+APScheduler
+selenium
+python-dotenv
+Flask
